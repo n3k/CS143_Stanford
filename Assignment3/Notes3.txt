@@ -1,0 +1,85 @@
+You will need to refer to the typing rules, identifier scoping rules, and other restrictions of Cool as defined in the Cool Reference Manual. 
+
+You will also need to add methods and data members to the AST class definitions for this phase.
+
+
+There is a lot of information in this handout, and you need to know most of it to write a working semantic analyzer. Please read the handout thoroughly. At a high level, your semantic checker will have to perform the following major tasks:
+
+1. Look at all classes and build an inheritance graph.
+2. Check that the graph is well-formed.
+3. For each class
+	(a) Traverse the AST, gathering all visible declarations in a symbol table.
+	(b) Check each expression for type correctness.
+	(c) Annotate the AST with types.
+
+	
+List of files to modify:
+
+	1) cool-tree.h
+		This is the file where used-defined extensions to the AST nodes are placed. You will likely need to add additional declarations but do not modify existing declarations.
+		
+	2) semant.cc
+		This is the main file for your implementation fo the semantic analysis phase. It conatins some symbols predefined for your conveninence and a start to a ClassTable implementation for representing the inheritance graph. You may chosse to use or ignore these.
+		
+		The semantic analyzer is invoked by calling method semant() of the class program_class. The class declaration for program_class is in cool-tree.h Any method declarations you add to cool-tree.h should be implemented in this file.
+		
+	3) semant.h
+		This file is the header file for semant.cc. You add any additional declarations you need here (and not in cool-tree.h)
+		
+	4) good.cl and bad.cl	
+		These files test a few semantic features. Feel free to modify these to test your semantic analyzer.
+		
+	
+Your programming task for this assignment is to:
+
+	1) Traverse the tree
+	2) Manage various pieces of information that you glean from the tree
+	3) Use that information to enforce semantics of Cool
+	
+One traversal of the AST is called a "pass". You will probably need ot make at least two passes over the AST to check everything.
+
+You will most likely need to attach customized information to the AST nodes. To do so you mean edit cool-tree.h. The implementations of the declared methods should go into semant.cc
+
+
+
+You will run your semantic analyzer using mysemant, a shell script that “glues” together the analyzer with the parser and the scanner. Note that mysemant takes a -s flag for debugging the analyzer;
+
+
+
+The semantic analysis phase is by far the largest component of the compiler so far. Our solution is approximately 1300 lines of well-documented C++. You will find the assignment easier if you take some time to design the semantic checker prior to coding. Ask yourself:
+• What requirements do I need to check?
+	- x + 1
+• When do I need to check a requirement?
+• When is the information needed to check a requirement generated?
+• Where is the information I need to check a requirement?
+
+If you can answer these questions for each aspect of Cool, implementing a solution should be straightforward.
+
+
+
+1. identify the types that are available in the language
+2. identify the language constructs that have types associated with them 
+3. identify the semantic rules for the language
+
+
+
+Checks: 
+1) Class Main MUST be defined
+2) There cannot be multiple definitions of a class        
+3) For classes that have parents, those parents must exist in the global scope
+	At this point, the global scope should be filled with valid classes
+	
+4) Check features
+	For this, we need to check the scope of initialization expression for attributes and expression bodies for methods.
+	
+	Attributes must be defiend with a Valid Type and its expression must comply
+	
+	methods must return a valid type, receive valid formal types, and its expression result must comply with the return type.
+	
+	expressions must be typed checked specifically
+	
+	expressions can use methods from classes , these must be checked for existance
+	
+	
+	
+	

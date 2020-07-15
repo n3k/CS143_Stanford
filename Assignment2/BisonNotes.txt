@@ -1,0 +1,40 @@
+3.4.4 The Union Declaration
+The %union declaration specifies the entire collection of possible data types for semantic values. The keyword %union is followed by braced code containing the same thing that goes inside a union in C.
+
+For example:
+
+%union {
+  double val;
+  symrec *tptr;
+}
+
+This says that the two alternative types are double and symrec *. They are given names val and tptr; these names are used in the %token, %nterm and %type declarations to pick one of the types for a terminal or nonterminal symbol (see section Nonterminal Symbols).
+
+
+As an extension to POSIX, a tag is allowed after the %union. For example:
+
+%union value {
+  double val;
+  symrec *tptr;
+}
+specifies the union tag value, so the corresponding C type is union value. If you do not specify a tag, it defaults to YYSTYPE
+
+
+
+Example of a simple grammar rule:
+
+E -> E + T
+E -> E - T
+  -> T
+  
+In bison, we represent this as follows:
+
+	E:
+		E '+' T		{ $$ = $1 + $3; }
+	  |	E '-' T		{ $$ = $1 - $3; }
+	  |	T			{ $$ = $1; }
+		
+$1 represents the first member of the left side of the production.
+$3 '' '        '  third  '     '    '   '   '           '
+$$ represents the LEFT Side of the production. So we're basically saying that the result of the addition between $1 and $3 gets assigned to the current E expression. This is a reduction.
+

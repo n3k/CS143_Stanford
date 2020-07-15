@@ -1,0 +1,1 @@
+make -f /usr/class/cs143/assignments/PA5/Makefile
